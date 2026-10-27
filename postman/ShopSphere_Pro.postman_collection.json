@@ -1,0 +1,2796 @@
+{
+  "info": {
+    "name": "ShopSphere Pro API",
+    "description": "Run folder 00 first - it logs in every role and saves tokens.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "customer_token",
+      "value": ""
+    },
+    {
+      "key": "customer2_token",
+      "value": ""
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "pm_token",
+      "value": ""
+    },
+    {
+      "key": "inv_token",
+      "value": ""
+    },
+    {
+      "key": "om_token",
+      "value": ""
+    },
+    {
+      "key": "support_token",
+      "value": ""
+    },
+    {
+      "key": "delivery_token",
+      "value": ""
+    },
+    {
+      "key": "finance_token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "verify_token",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": ""
+    },
+    {
+      "key": "gateway_ref",
+      "value": ""
+    },
+    {
+      "key": "shipment_id",
+      "value": ""
+    },
+    {
+      "key": "assignment_id",
+      "value": ""
+    },
+    {
+      "key": "return_id",
+      "value": ""
+    },
+    {
+      "key": "ticket_id",
+      "value": ""
+    },
+    {
+      "key": "supplier_id",
+      "value": ""
+    },
+    {
+      "key": "po_id",
+      "value": ""
+    },
+    {
+      "key": "job_id",
+      "value": ""
+    },
+    {
+      "key": "address_id",
+      "value": ""
+    },
+    {
+      "key": "staff_id",
+      "value": ""
+    },
+    {
+      "key": "category_id",
+      "value": ""
+    },
+    {
+      "key": "transfer_id",
+      "value": ""
+    },
+    {
+      "key": "question_id",
+      "value": ""
+    },
+    {
+      "key": "webhook_body",
+      "value": ""
+    },
+    {
+      "key": "webhook_sig",
+      "value": ""
+    },
+    {
+      "key": "order_item_id",
+      "value": ""
+    },
+    {
+      "key": "tracking_number",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Setup - login as every role",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('customer_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login customer2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer2@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('customer2_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('admin_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login product manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"products@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('pm_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login inventory manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"inventory@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('inv_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login order manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"orders@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('om_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login support agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"support@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('support_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login delivery manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"delivery@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('delivery_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login finance manager",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"finance@shopsphere.com\",\n  \"password\": \"Password@123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.access_token) { pm.collectionVariables.set('finance_token', d.access_token); }",
+                  "if (d.refresh_token) { pm.collectionVariables.set('refresh_token', d.refresh_token); }",
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 Auth & 03 Registration",
+      "item": [
+        {
+          "name": "Register customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Postman User\",\n  \"email\": \"postman{{$randomInt}}@test.com\",\n  \"phone\": \"98{{$randomInt}}12345\",\n  \"password\": \"Hello1234\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.verify_token !== undefined) { pm.collectionVariables.set('verify_token', d.verify_token); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/auth/verify-email?token={{verify_token}}"
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/auth/me"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/refresh",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Wrong password (401)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@shopsphere.com\",\n  \"password\": \"bad\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Duplicate registration (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Dup\",\n  \"email\": \"customer@shopsphere.com\",\n  \"phone\": \"9000099999\",\n  \"password\": \"Hello1234\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "No token (401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/profile"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Users & Roles",
+      "item": [
+        {
+          "name": "List users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users?search=a&page=1"
+          }
+        },
+        {
+          "name": "List roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/roles"
+          }
+        },
+        {
+          "name": "Create staff user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"New Agent\",\n  \"email\": \"agent{{$randomInt}}@shopsphere.com\",\n  \"password\": \"Agent1234\",\n  \"role\": \"support_agent\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('staff_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Assign role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/{{staff_id}}/role",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"order_manager\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/{{staff_id}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"suspended\"\n}"
+            }
+          }
+        },
+        {
+          "name": "User activity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users/{{staff_id}}/activity"
+          }
+        },
+        {
+          "name": "Customer blocked from users (403)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/users"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 Profile & 05 Addresses",
+      "item": [
+        {
+          "name": "My profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/profile"
+          }
+        },
+        {
+          "name": "Update profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/profile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"Ravi Kumar\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Profile history",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/profile/history"
+          }
+        },
+        {
+          "name": "Add address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/addresses",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"label\": \"Office\",\n  \"address_type\": \"shipping\",\n  \"full_name\": \"Ravi Kumar\",\n  \"phone\": \"9876543210\",\n  \"line1\": \"Cyber Towers, Hitech City\",\n  \"city\": \"Hyderabad\",\n  \"state\": \"Telangana\",\n  \"postal_code\": \"500081\",\n  \"country\": \"India\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('address_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List addresses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/addresses"
+          }
+        },
+        {
+          "name": "Set default address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/addresses/{{address_id}}/default"
+          }
+        },
+        {
+          "name": "Other customer can't edit (404)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2_token}}"
+              }
+            ],
+            "url": "{{base_url}}/addresses/{{address_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06-12 Catalog",
+      "item": [
+        {
+          "name": "Category tree",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/categories/tree"
+          }
+        },
+        {
+          "name": "Create category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/categories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptops {{$randomInt}}\",\n  \"parent_id\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('category_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete category with products (400)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/categories/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Brands",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/brands?search=sam"
+          }
+        },
+        {
+          "name": "Products by brand",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/brands/1/products"
+          }
+        },
+        {
+          "name": "Search products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/products?search=phone&min_price=1000&sort=price_asc"
+          }
+        },
+        {
+          "name": "Filter by attribute",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/products?attr=Color:Blue"
+          }
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dell Inspiron 15\",\n  \"sku\": \"DELL-INS-{{$randomInt}}\",\n  \"category_id\": 1,\n  \"brand_id\": 1,\n  \"base_price\": \"55000\",\n  \"description\": \"i5, 16GB\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('product_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Product detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/products/{{product_id}}"
+          }
+        },
+        {
+          "name": "Add variant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products/{{product_id}}/variants",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"DELL-V-{{$randomInt}}\",\n  \"size\": \"15 inch\",\n  \"color\": \"Silver\",\n  \"price\": \"56000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Assign attribute",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products/{{product_id}}/attributes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attribute_id\": 1,\n  \"value\": \"Black\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Change price",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products/{{product_id}}/price",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_price\": \"54000\",\n  \"sale_price\": \"49999\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Price history",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products/{{product_id}}/price-history"
+          }
+        },
+        {
+          "name": "Customer can't create product (403)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"x\",\n  \"sku\": \"x1\",\n  \"category_id\": 1,\n  \"base_price\": \"1\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "13-16 Inventory",
+      "item": [
+        {
+          "name": "Warehouses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/warehouses"
+          }
+        },
+        {
+          "name": "Add stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/adjust",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"{{product_id}}\",\n  \"warehouse_id\": 1,\n  \"quantity\": 25,\n  \"action\": \"add\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove too much (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/adjust",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 2,\n  \"warehouse_id\": 1,\n  \"quantity\": 999999,\n  \"action\": \"remove\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Stock for product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/product/1"
+          }
+        },
+        {
+          "name": "Warehouse stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/warehouses/1/stock"
+          }
+        },
+        {
+          "name": "Create transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/transfers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from_warehouse_id\": 1,\n  \"to_warehouse_id\": 2,\n  \"product_id\": 1,\n  \"quantity\": 3\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('transfer_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dispatch transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/transfers/{{transfer_id}}/dispatch",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Receive transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/transfers/{{transfer_id}}/receive",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 3\n}"
+            }
+          }
+        },
+        {
+          "name": "Set threshold",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/1/threshold",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"min_threshold\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "Low stock report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/low-stock"
+          }
+        },
+        {
+          "name": "Restock alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/inventory/alerts"
+          }
+        }
+      ]
+    },
+    {
+      "name": "17-24 Cart -> Checkout",
+      "item": [
+        {
+          "name": "Clear cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/cart"
+          }
+        },
+        {
+          "name": "Add phone to cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/cart/items",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "View cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/cart"
+          }
+        },
+        {
+          "name": "Cart summary (coupon + shipping)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/cart/summary",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coupon_code\": \"WELCOME10\",\n  \"shipping_method_id\": 1,\n  \"shipping_address_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Wishlist add",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/wishlist",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/wishlist"
+          }
+        },
+        {
+          "name": "Coupons (staff)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{pm_token}}"
+              }
+            ],
+            "url": "{{base_url}}/coupons"
+          }
+        },
+        {
+          "name": "Promotions (current)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/promotions?current_only=true"
+          }
+        },
+        {
+          "name": "Tax rates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/tax-rates"
+          }
+        },
+        {
+          "name": "Shipping methods",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/shipping-methods"
+          }
+        },
+        {
+          "name": "Shipping quote",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/shipping-methods/1/quote",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subtotal\": \"500\",\n  \"item_count\": 2,\n  \"country\": \"India\"\n}"
+            }
+          }
+        },
+        {
+          "name": "CHECKOUT (card)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "pm-{{$randomInt}}"
+              }
+            ],
+            "url": "{{base_url}}/checkout",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_address_id\": 1,\n  \"shipping_method_id\": 1,\n  \"payment_method\": \"card\",\n  \"coupon_code\": \"WELCOME10\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "pm.test('order created', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "pm.collectionVariables.set('order_id', d.id);",
+                  "pm.collectionVariables.set('order_item_id', d.items[0].id);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "25-28 Orders",
+      "item": [
+        {
+          "name": "My orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders"
+          }
+        },
+        {
+          "name": "Order detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders/{{order_id}}"
+          }
+        },
+        {
+          "name": "Order items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders/{{order_id}}/items"
+          }
+        },
+        {
+          "name": "Other customer can't see (404)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders/{{order_id}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "All orders (staff, filter)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders?status=confirmed"
+          }
+        },
+        {
+          "name": "Status history",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders/{{order_id}}/history"
+          }
+        },
+        {
+          "name": "Invalid jump pending->delivered (400)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/orders/{{order_id}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"delivered\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "29-32 Payments",
+      "item": [
+        {
+          "name": "Create payment intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments/orders/{{order_id}}/intent"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.gateway_ref !== undefined) { pm.collectionVariables.set('gateway_ref', d.gateway_ref); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Same intent again (returns existing)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments/orders/{{order_id}}/intent"
+          }
+        },
+        {
+          "name": "Simulate card success (sandbox)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments/sandbox/{{gateway_ref}}/simulate?outcome=success"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "pm.collectionVariables.set('webhook_body', d.raw_body);",
+                  "pm.collectionVariables.set('webhook_sig', d.signature);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Replay webhook (duplicate ignored)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('duplicate ignored', () => pm.expect(pm.response.json().status).to.eql('duplicate_ignored'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/payments/webhook",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sandbox-Signature",
+                "value": "{{webhook_sig}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{webhook_body}}"
+            }
+          }
+        },
+        {
+          "name": "Pay again (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments/orders/{{order_id}}/intent"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Payment history for order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments/orders/{{order_id}}/history"
+          }
+        },
+        {
+          "name": "All payments (finance)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/payments"
+          }
+        },
+        {
+          "name": "Refundable amount",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/refunds/orders/{{order_id}}/refundable"
+          }
+        },
+        {
+          "name": "Partial refund",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/refunds",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\",\n  \"amount\": \"100\",\n  \"reason\": \"Goodwill\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Refunds",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/refunds"
+          }
+        },
+        {
+          "name": "COD settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/cod/settings"
+          }
+        },
+        {
+          "name": "COD collections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/cod/collections"
+          }
+        }
+      ]
+    },
+    {
+      "name": "33-35 Shipping & Delivery",
+      "item": [
+        {
+          "name": "Providers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipping-providers"
+          }
+        },
+        {
+          "name": "Create shipment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\",\n  \"provider_id\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('shipment_id', d.id);",
+                  "pm.collectionVariables.set('tracking_number', d.tracking_number);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dispatch (order -> shipped)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipments/{{shipment_id}}/dispatch"
+          }
+        },
+        {
+          "name": "Tracking update",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{delivery_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipments/{{shipment_id}}/tracking",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_transit\",\n  \"location\": \"Pune hub\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Courier webhook update",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Provider-Token",
+                "value": "courier-token-123"
+              }
+            ],
+            "url": "{{base_url}}/shipments/provider-updates",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracking_number\": \"{{tracking_number}}\",\n  \"status\": \"out_for_delivery\",\n  \"location\": \"Hyderabad\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Shipment detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipments/{{shipment_id}}"
+          }
+        },
+        {
+          "name": "Assign delivery",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{delivery_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shipments/{{shipment_id}}/assign",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assigned_to\": 7\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('assignment_id', d.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Failed attempt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{delivery_token}}"
+              }
+            ],
+            "url": "{{base_url}}/deliveries/{{assignment_id}}/attempts",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"result\": \"failed\",\n  \"reason\": \"Customer not home\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delivered",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{delivery_token}}"
+              }
+            ],
+            "url": "{{base_url}}/deliveries/{{assignment_id}}/attempts",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"result\": \"delivered\",\n  \"receiver_name\": \"Ravi\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "36-39 Returns, Exchanges, Reviews, Q&A",
+      "item": [
+        {
+          "name": "Write review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reviews",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"rating\": 5,\n  \"title\": \"Love it\",\n  \"comment\": \"Battery is great\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Review without purchase (403)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reviews",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"rating\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rating summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/products/1/rating"
+          }
+        },
+        {
+          "name": "Request return",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/returns",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\",\n  \"reason\": \"Not needed\",\n  \"items\": [\n    {\n      \"order_item_id\": \"{{order_item_id}}\",\n      \"quantity\": 1\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('return_id', d.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Approve return",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/returns/{{return_id}}/review",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approve\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Receive return + refund",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/returns/{{return_id}}/receive",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"warehouse_id\": 1,\n  \"restock\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Exchanges list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{om_token}}"
+              }
+            ],
+            "url": "{{base_url}}/exchanges"
+          }
+        },
+        {
+          "name": "Ask question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer2_token}}"
+              }
+            ],
+            "url": "{{base_url}}/questions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"text\": \"Does it support 5G?\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('question_id', d.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Answer question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{support_token}}"
+              }
+            ],
+            "url": "{{base_url}}/questions/{{question_id}}/answers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Yes, it supports 5G bands.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Product questions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/products/1/questions"
+          }
+        }
+      ]
+    },
+    {
+      "name": "40-42 Support & Notifications",
+      "item": [
+        {
+          "name": "Open ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/tickets",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Delivery delay\",\n  \"message\": \"Order not received\",\n  \"priority\": \"high\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('ticket_id', d.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Assign ticket",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{support_token}}"
+              }
+            ],
+            "url": "{{base_url}}/tickets/{{ticket_id}}/assign",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": 6\n}"
+            }
+          }
+        },
+        {
+          "name": "Reply",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{support_token}}"
+              }
+            ],
+            "url": "{{base_url}}/tickets/{{ticket_id}}/messages",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Checking now\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Resolve",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{support_token}}"
+              }
+            ],
+            "url": "{{base_url}}/tickets/{{ticket_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolved\",\n  \"resolution\": \"Delivered today\"\n}"
+            }
+          }
+        },
+        {
+          "name": "My notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/notifications"
+          }
+        },
+        {
+          "name": "Unread count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{customer_token}}"
+              }
+            ],
+            "url": "{{base_url}}/notifications/unread-count"
+          }
+        },
+        {
+          "name": "Email outbox",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/messaging/outbox"
+          }
+        },
+        {
+          "name": "Process outbox now",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/messaging/process"
+          }
+        }
+      ]
+    },
+    {
+      "name": "43-45 Suppliers",
+      "item": [
+        {
+          "name": "Register supplier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/suppliers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gadget Wholesale\",\n  \"email\": \"gw{{$randomInt}}@test.com\",\n  \"phone\": \"9000011111\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('supplier_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Approve supplier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/suppliers/{{supplier_id}}/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create PO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/purchase-orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplier_id\": \"{{supplier_id}}\",\n  \"warehouse_id\": 1,\n  \"items\": [\n    {\n      \"product_id\": 2,\n      \"quantity\": 20,\n      \"unit_cost\": \"700\"\n    }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('po_id', d.id); }",
+                  "pm.test('status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Send PO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/purchase-orders/{{po_id}}/send"
+          }
+        },
+        {
+          "name": "Supplier history",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/suppliers/{{supplier_id}}/history"
+          }
+        },
+        {
+          "name": "Invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/supplier-invoices",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"po_id\": \"{{po_id}}\",\n  \"invoice_number\": \"INV-{{$randomInt}}\",\n  \"invoice_date\": \"2026-10-26\",\n  \"amount\": \"14000\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "46-49 Admin, Reports, Exports",
+      "item": [
+        {
+          "name": "Audit logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/audit-logs"
+          }
+        },
+        {
+          "name": "Dashboard (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/dashboard"
+          }
+        },
+        {
+          "name": "Dashboard (inventory - limited)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/dashboard"
+          }
+        },
+        {
+          "name": "Sales report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reports/sales?date_from=2026-01-01"
+          }
+        },
+        {
+          "name": "Inventory report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{inv_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reports/inventory?warehouse_id=1"
+          }
+        },
+        {
+          "name": "Payments report",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reports/payments"
+          }
+        },
+        {
+          "name": "Product performance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reports/products"
+          }
+        },
+        {
+          "name": "Export sales to Excel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/reports/export",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"report\": \"sales\",\n  \"format\": \"xlsx\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.id !== undefined) { pm.collectionVariables.set('job_id', d.id); }",
+                  "pm.test('status 202', () => pm.response.to.have.status(202));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Job status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/jobs/{{job_id}}"
+          }
+        },
+        {
+          "name": "Download export",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{finance_token}}"
+              }
+            ],
+            "url": "{{base_url}}/jobs/{{job_id}}/download"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// give the background export a moment to finish",
+                  "setTimeout(() => {}, 1500);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Run daily summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": "{{base_url}}/jobs/daily-summary"
+          }
+        }
+      ]
+    }
+  ]
+}
